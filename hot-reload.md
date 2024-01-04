@@ -5,7 +5,8 @@
 文章整体比较基础，适合初学者，通过本文可以学习到以下知识点
 
 1. 关于 C++ 程序如何编译运行，如何运行时加载动态库（使用 `dl*` API）。
-2. 如何使用 CMake 组织并构建一个包含可执行程序、动态库和头文件库的项目。
+2. 如何设计简洁易用的库 API 供用户使用。
+3. 如何使用 CMake 组织并构建一个包含可执行程序、动态库和头文件库的项目。
 
 ## 动态库热加载原理
 
@@ -395,6 +396,119 @@ g++ -o main.out main.cpp -ldl -std=c++17
 ```bash
 Hi
 bar == 200
+Hello
+bar == 300
+```
+
+## CMake 版本
+
+前面两个版本的代码都是写个脚本直接使用 `g++` 编译，这样的方式不够灵活，不利于项目的管理，正好这个项目涉及到几个不同的模块，可以尝试使用 `CMake` 进行管理，学习一下项目的组织构建。
+
+完整代码见 [projects/replex-3](https://github.com/zhangyi1357/Notes/tree/main/projects/replex-3)，采用 [现代 CMake 模块化项目管理指南](https://github.com/zhangyi1357/Notes/blob/main/cmake-1.md) 中推荐的方式进行项目组织，但是略微进行了一点简化，目录结构如下
+
+```bash
+.
+├── CMakeLists.txt
+├── hello
+│   ├── CMakeLists.txt
+│   ├── include
+│   │   └── hello.h
+│   └── src
+│       └── hello.cpp
+├── main
+│   ├── CMakeLists.txt
+│   └── src
+│       └── main.cpp
+└── replex
+    ├── CMakeLists.txt
+    └── include
+        └── replex.h
+```
+
+首先梳理一下整个项目的依赖关系，如下所示
+
+```bash
+main (exe)
+├── hello_interface (interface)
+│   └── replex (interface)
+└── hello (shared lib)
+```
+
+main 模块依赖于头文件库 hello_interface，hello_interface 依赖于头文件库 replex，动态库 hello 不依赖于任何库，用于提供给 main 模块使用。
+
+`CMakeLists.txt` 为根目录的 `CMakeLists.txt`，内容如下
+
+```cmake
+cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+project(replex LANGUAGES CXX)
+
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif ()
+
+add_subdirectory(replex)
+add_subdirectory(main)
+add_subdirectory(hello)
+```
+
+首先设置 C++ 标准，然后设置项目名称，然后判断是否设置了构建类型，如果没有设置，则设置为 Release 模式，然后添加子目录，分别为 replex、main 和 hello。
+
+`replex/CMakeLists.txt` 的内容如下
+
+```cmake
+add_library(replex INTERFACE include/replex.h)
+target_include_directories(replex INTERFACE include)
+```
+
+replex 为头文件库，使用 `add_library` 添加，类型为 INTERFACE，表示这是一个接口库，不会生成任何文件，只会导出头文件，使用 `target_include_directories` 添加头文件路径。
+
+`hello/CMakeLists.txt` 的内容如下
+
+```cmake
+add_library(hello SHARED src/hello.cpp)
+
+add_library(hello_interface INTERFACE include/hello.h)
+target_include_directories(hello_interface INTERFACE include)
+target_link_libraries(hello_interface INTERFACE replex)
+```
+
+其中定义了两个库，一个为动态库 hello，一个为头文件库 hello_interface 用于导出 动态库 hello 中的符号以供使用， hello_interface 依赖于 replex，使用 `target_link_libraries` 添加依赖。
+
+`main/CMakeLists.txt` 的内容如下
+
+```cmake
+add_executable(main src/main.cpp)
+target_link_libraries(main PRIVATE hello_interface)
+```
+
+main 为可执行文件，使用 `add_executable` 添加，使用 `target_link_libraries` 添加依赖 `hello_interface`。
+
+最后运行脚本 `run.sh`，内容如下
+
+```bash
+#!/bin/bash
+set -e # stop the script on errors
+cmake -B build
+cmake --build build
+./build/main/main
+```
+
+运行的效果如下
+
+```bash
+Hi
+bar == 200
+[  0%] Built target replex
+[  0%] Built target hello_interface
+[ 50%] Built target main
+[ 75%] Building CXX object hello/CMakeFiles/hello.dir/src/hello.cpp.o
+[100%] Linking CXX shared library libhello.so
+[100%] Built target hello
 Hello
 bar == 300
 ```
