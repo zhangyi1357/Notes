@@ -7,6 +7,7 @@
 1. 关于 C++ 程序如何编译运行，如何运行时加载动态库（使用 `dl*` API）。
 2. 如何设计简洁易用的库 API 供用户使用。
 3. 如何使用 CMake 组织并构建一个包含可执行程序、动态库和头文件库的项目。
+4. 如何使用 GoogleTest 进行测试。
 
 ## 动态库热加载原理
 
@@ -400,6 +401,8 @@ Hello
 bar == 300
 ```
 
+现在我们可以认为我们所编写的 `replex.h` 库足方便使用，动态库作者只需要继承 `ReplexModule` 类，然后实现两个虚函数即可，使用者只需要包含动态库作者提供的头文件，然后调用相应的接口即可。
+
 ## CMake 版本
 
 前面两个版本的代码都是写个脚本直接使用 `g++` 编译，这样的方式不够灵活，不利于项目的管理，正好这个项目涉及到几个不同的模块，可以尝试使用 `CMake` 进行管理，学习一下项目的组织构建。
@@ -512,3 +515,169 @@ bar == 200
 Hello
 bar == 300
 ```
+
+## 添加测试 （[GoogleTest](https://github.com/google/googletest)）
+
+这部分的完整代码见 [projects/replex-4](https://github.com/zhangyi1357/Notes/tree/main/projects/replex-4)。
+
+一个好的项目，测试是必不可少的，前面我们实现的 `main.cpp` 中其实已经有了一点自动化测试的影子，但是这种方式不够好，我们可以使用 GoogleTest 来进行测试。
+
+首先演示一个最基本的 gtest 用法，首先使用 git 的 `submodule` 命令添加 googletest 到我们的项目中
+
+```bash
+git submodule add git@github.com:google/googletest.git
+```
+
+然后修改我们根目录下的 CMakeLists.txt，添加如下内容
+
+```cmake
+add_subdirectory(googletest)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
+add_subdirectory(test)
+```
+
+创建 test 目录，结构如下
+
+```bash
+test
+├── CMakeLists.txt
+└── src
+    └── test.cpp
+```
+
+`test/CMakeLists.txt` 的内容如下
+
+```cmake
+add_executable(tests src/test.cpp)
+target_link_libraries(tests PUBLIC gtest gtest_main)
+```
+
+`test/src/test.cpp` 的内容如下
+
+```cpp
+#include <gtest/gtest.h>
+
+TEST(SillyTest, IsFourPositive) {
+    EXPECT_GT(4, 0);
+}
+
+TEST(SillyTest, IsFourTimesFourSixteen) {
+    int x = 4;
+    EXPECT_EQ(x * x, 16);
+}
+
+int main(int argc, char** argv) {
+    // This allows us to call this executable with various command line
+    // arguments which get parsed in InitGoogleTest
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+
+OK，到现在我们已经成功添加了 GoogleTest 到我们的项目中并且可以运行测试了，现在我们要编写一些测试来测试我们的项目。
+
+我们编写一个 replex 的测试，测试内容如下
+
+```cpp
+#include <gtest/gtest.h>
+#include <hello.h>
+
+#include <cstdlib>
+#include <fstream>
+
+const char* g_Test_v1 = R"delimiter(
+extern "C" {
+int foo(int x) {
+    return x + 5;
+}
+int bar = 3;
+}
+)delimiter";
+
+const char* g_Test_v2 = R"delimiter(
+extern "C" {
+int foo(int x) {
+    return x - 5;
+}
+int bar = -2;
+}
+)delimiter";
+
+class ReplexTest : public ::testing::Test {
+   public:
+    // Called automatically at the start of each test case.
+    virtual void SetUp() {
+        WriteFile("hello/src/hello.cpp", g_Test_v1);
+        Compile(1);
+        HelloModule::LoadLibrary();
+    }
+
+    // We'll invoke this function manually in the middle of each test case
+    void ChangeAndReload() {
+        WriteFile("hello/src/hello.cpp", g_Test_v2);
+        Compile(2);
+        HelloModule::ReloadLibrary();
+    }
+
+    // Called automatically at the end of each test case.
+    virtual void TearDown() {
+        HelloModule::UnloadLibrary();
+        WriteFile("hello/src/hello.cpp", g_Test_v1);
+        Compile(1);
+    }
+
+   private:
+    void WriteFile(const char* path, const char* text) {
+        // Open an output filetream, deleting existing contents
+        std::ofstream out(path, std::ios_base::trunc | std::ios_base::out);
+        out << text;
+    }
+
+    void Compile(int version) {
+        if (version == m_version) {
+            return;
+        }
+
+        m_version = version;
+        EXPECT_EQ(std::system("cmake --build build"), 0);
+
+        // Super unfortunate sleep due to the result of cmake not being fully
+        // flushed by the time the command returns (there are more elegant ways
+        // to solve this)
+        sleep(1);
+    }
+
+    int m_version = 1;
+};
+
+TEST_F(ReplexTest, VariableReload) {
+    EXPECT_EQ(HelloModule::GetBar(), 3);
+    ChangeAndReload();
+    EXPECT_EQ(HelloModule::GetBar(), -2);
+}
+
+TEST_F(ReplexTest, FunctionReload) {
+    EXPECT_EQ(HelloModule::Foo(4), 9);
+    ChangeAndReload();
+    EXPECT_EQ(HelloModule::Foo(4), -1);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+```
+
+要使得这个测试运行起来，还需要对 CMake 文件进行一些修改，这部分留作练习吧，动手试试会对 CMake 等有更深的理解。
+
+相比较于 [projects/replex-3](https://github.com/zhangyi1357/Notes/tree/main/projects/replex-3)，需要修改的文件有：
+
+1. 移除 main 文件夹
+2. 根目录下的 CMakeLists.txt
+3. hello/CMakeLists.txt
+4. hello/include/hello.h
+5. test/src/test.cpp
+
+完整代码见 [projects/replex-4](https://github.com/zhangyi1357/Notes/tree/main/projects/replex-4)
