@@ -7,3 +7,4 @@
 - [CMake 学习笔记](cmake.md)
 - [现代 CMake 模块化项目管理指南](cmake-1.md)
 - [VSCode 中优雅地编写 Markdown](vscode-markdown.md)
+- [C++ 动态库热加载](hot-reload.md)
