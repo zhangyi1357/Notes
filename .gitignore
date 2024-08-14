@@ -1,4 +1,6 @@
+# build output
 build/
 *.out
 
+# IDE and editor config
 .vscode/
