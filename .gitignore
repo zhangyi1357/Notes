@@ -4,3 +4,4 @@ build/
 
 # IDE and editor config
 .vscode/
+.aider*
