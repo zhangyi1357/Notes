@@ -8,6 +8,8 @@ TODO：VS Code 的配置文件，Settings，Keybindings，Snippets，Extensions�
 
 ## [Clangd](https://clangd.llvm.org/)
 
+Clangd 配置文件，`~/.config/clangd/config.yaml`：
+
 ```yaml
 # ~/.config/clangd/config.yaml
 If:                               # Apply this config conditionally
@@ -46,4 +48,20 @@ If:
     - /usr/include/.*
 Diagnostics:
   Suppress: "*"
+```
+
+VS Code 配置 Clangd 命令行启动参数：
+```json
+{
+    "clangd.arguments": [
+        "--background-index",
+        "-j=8",
+        "--clang-tidy",
+        "--all-scopes-completion",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--pch-storage=memory",
+        "--suggest-missing-includes"
+    ],
+}
 ```
