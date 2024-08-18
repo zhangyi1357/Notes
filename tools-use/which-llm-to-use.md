@@ -8,18 +8,22 @@
 
 ## 通用聊天大模型推荐
 
-- DeepSeek Chat V2
+- [DeepSeek Chat V2](https://chat.deepseek.com)
 
-  免费无限使用的 [聊天官网](https://chat.deepseek.com)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，[各大榜单名列前茅的实力](https://deepseek.com/)，美中不足的是回复速度稍慢，以及没有联网功能。
+  免费无限使用的 [聊天官网](https://chat.deepseek.com)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，[各大榜单名列前茅的实力](https://deepseek.com/)，美中不足的是回复速度稍慢，没有联网功能，无法分析文件、图片等。仅就聊天而言还是不错，如果需要联网、文件分析等功能可以考虑 gpt-4o 以及 kimi 等模型。
 
-- OpenAI gpt-4o
+- [OpenAI gpt-4o](https://chatgpt.com/)
 
-  SOTA 模型，几乎是目前最好的聊天模型，但是官网提供的免费聊天次数有限，充值订阅需要国外 VISA 信用卡，即使充值仍有 [聊天限额（80 条/3h）](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4-gpt-4-turbo-gpt-4o-and-gpt-4o-mini#h_b04e3f8259)，而且价格较高（$20/月）。
+  SOTA 模型，几乎是目前最好的聊天模型，支持图片、文件等功能，可以联网查询，但是官网提供的免费聊天次数有限，充值订阅需要国外 VISA 信用卡，即使充值仍有 [聊天限额（80 条/3h）](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4-gpt-4-turbo-gpt-4o-and-gpt-4o-mini#h_b04e3f8259)，而且价格较高（$20/月）。
 
-- OpenAI gpt-4o-mini
+- [OpenAI gpt-4o-mini](https://chatgpt.com/?model=gpt-4o-mini)
 
   快即是正义，更快的响应速度一方面能够提升体验，另一方面在编程等场景下方便快速迭代多轮对话，逐步改进。
   官网提供免费不限量的聊天。
+
+- [MoonShoot Kimi](https://kimi.moonshot.cn/)
+
+  中国国产大模型，支持联网查询，支持图片、文件等功能，200 万长上下文，尤其适合分析文档，联网查询等，且其联网搜索中文支持较好，引用网页内容较为准确。
 
 大模型榜单：
 
