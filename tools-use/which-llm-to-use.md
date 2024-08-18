@@ -9,18 +9,39 @@
 ## 通用聊天大模型推荐
 
 - DeepSeek Chat V2
+
+  免费无限使用的 [聊天官网](https://chat.deepseek.com)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，[各大榜单名列前茅的实力](https://deepseek.com/)，美中不足的是回复速度稍慢，以及没有联网功能。
+
 - OpenAI gpt-4o
 
-  SOTA 模型，几乎是目前最好的聊天模型，但是官网提供的免费聊天次数有限。
+  SOTA 模型，几乎是目前最好的聊天模型，但是官网提供的免费聊天次数有限，充值订阅需要国外 VISA 信用卡，即使充值仍有 [聊天限额（80 条/3h）](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4-gpt-4-turbo-gpt-4o-and-gpt-4o-mini#h_b04e3f8259)，而且价格较高（$20/月）。
+
 - OpenAI gpt-4o-mini
 
   快即是正义，更快的响应速度一方面能够提升体验，另一方面在编程等场景下方便快速迭代多轮对话，逐步改进。
   官网提供免费不限量的聊天。
 
+大模型榜单：
+
+- [Chatbot Arena LeaderBoard](https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard)
+
 ## 编程领域大模型推荐
 
 - [DeepSeek Coder V2](https://github.com/deepseek-ai/DeepSeek-Coder)
 
-  免费无限使用的 [聊天官网](https://chat.deepseek.com/coder)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，各大榜单名列前茅的实力，当之无愧的编程大模型首选。
+  免费无限使用的 [聊天官网](https://chat.deepseek.com/coder)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，各大榜单名列前茅的实力 [^1](https://evalplus.github.io/leaderboard.html)[^2](https://aider.chat/docs/leaderboards/)，当之无愧的编程大模型首选。
 
-- [Qwen/CodeQwen1.5-7B-Chat](https://huggingface.co/Qwen/CodeQwen1.5-7B-Chat)
+- [Qwen/CodeQwen1.5-7B-Chat](https://github.com/QwenLM/CodeQwen1.5)
+
+  Qwen 基本上也是国产开源大模型之光，在 [EvalPlus](https://evalplus.github.io/leaderboard.html) 等排行榜中也是名列前茅，在 7~9B 级别的模型中属于佼佼者，能够打败 DeepSeek-Coder-6.7B，7B 的参数量比较适合本地进行部署使用。
+
+- Claude 3.5 Sonnet
+
+  Reddit 以及知乎等平台多数人推荐，在 [Aider Chat LeaderBoard](https://aider.chat/docs/leaderboards/) 代码编辑和重构两个排行榜中分别排名第一和第二。
+
+  TODO: 进一步介绍，添加引用链接等。
+
+编程大模型榜单：
+
+- [EvalPlus](https://evalplus.github.io/leaderboard.html)
+- [Aider Chat LeaderBoard](https://aider.chat/docs/leaderboards/)

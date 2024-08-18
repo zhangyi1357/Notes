@@ -16,3 +16,4 @@
 - [沉浸式翻译插件](tools-use/immersive-translate.md)
 - [Github 缩减仓库体积](tools-use/github-use.md)
 - [Github Copilot 编程助手使用](tools-use/github-copilot-use.md)
+- [大模型推荐](tools-use/which-llm-to-use.md)
