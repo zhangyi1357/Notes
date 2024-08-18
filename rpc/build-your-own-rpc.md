@@ -10,3 +10,4 @@ libs:
 
 - [rpclib](https://github.com/rpclib/rpclib)：无需 IDL 的简洁 RPC 库
 - [grpcxx](https://github.com/uatuko/grpcxx)：基于现代标准（C++20）实现的超高速 gRPC C++服务器
+- [asio-grpc](https://github.com/Tradias/asio-grpc)：使用 Asio/统一执行器的异步 gRPC
