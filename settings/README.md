@@ -84,10 +84,10 @@ git config --global core.excludesfile ~/.gitignore_global
 
 ```gitignore
 # ~/.gitignore_global
-.vscode/   # VS Code 配置文件
-.history/  # VS Code history 插件
-.cache/    # Clangd 缓存文件
+.vscode/
+.history/
+.cache/
 
-build/     # CMake 编译目录
-debug.sh   # 调试脚本
+build/
+debug.sh
 ```
