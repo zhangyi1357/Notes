@@ -28,6 +28,7 @@
 大模型榜单：
 
 - [Chatbot Arena LeaderBoard](https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard)
+- [Livebench](https://livebench.ai/#)
 
 ## 编程领域大模型推荐
 
