@@ -65,3 +65,27 @@ VS Code 配置 Clangd 命令行启动参数：
     ],
 }
 ```
+
+## Git
+
+基本配置项，分别为：用户名，邮箱，编辑器，凭证存储。
+
+```bash
+git config --global user.name "zhangyi"
+git config --global user.email "zhangyi_1357@sjtu.edu.cn"
+git config --global core.editor "vim"
+git config --global credential.helper store
+git config --global core.excludesfile ~/.gitignore_global
+```
+
+全局忽略文件 `~/.gitignore_global` 内容：
+
+```gitignore
+# ~/.gitignore_global
+.vscode/   # VS Code 配置文件
+.history/  # VS Code history 插件
+.cache/    # Clangd 缓存文件
+
+build/     # CMake 编译目录
+debug.sh   # 调试脚本
+```
