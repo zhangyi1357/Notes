@@ -14,6 +14,7 @@ Clangd 配置文件，`~/.config/clangd/config.yaml`：
 # ~/.config/clangd/config.yaml
 If:                               # Apply this config conditionally
   PathMatch: [.*\.h, .*\.cpp, .*\.cpp, .*\.cc]  # to all headers...
+  PathExclude: /home/zj/repos/grpc/.*
 CompileFlags:                        # Tweak the parse settings
   Add: [-std=c++20, -I/usr/include/python3.10]  # treat all files as C++, enable more warnings
 Diagnostics:
@@ -32,6 +33,7 @@ Diagnostics:
       - bugprone-unchecked-optional-access
       - bugprone-lambda-function-name
       - modernize-use-trailing-return-type
+      - modernize-use-using
       - readability-identifier-length
       - readability-magic-numbers
       - readability-function-cognitive-complexity
