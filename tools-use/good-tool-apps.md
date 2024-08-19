@@ -13,3 +13,5 @@
 ## 3. [ZoomIt](https://docs.microsoft.com/en-us/sysinternals/downloads/zoomit)
 
 屏幕放大镜。`Ctrl + 1` 启动放大镜，`Ctrl + 2` 画笔工具。
+
+同时还有屏幕录制和倒计时功能。
