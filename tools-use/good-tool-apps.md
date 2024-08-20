@@ -15,3 +15,9 @@
 屏幕放大镜。`Ctrl + 1` 启动放大镜，`Ctrl + 2` 画笔工具。
 
 同时还有屏幕录制和倒计时功能。
+
+## 4. [Bandizip](https://www.bandisoft.com/bandizip/)
+
+压缩工具。支持 7z、zip、rar、tar、iso 等多种格式，解压速度快。
+
+可以到 [夸克网盘](https://pan.quark.cn/s/74583a3e7f0f#/list/share) 下载无广告版本并关闭自动更新提升使用体验 [^1](https://www.qgnn.com/5583.html)。
