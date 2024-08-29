@@ -16,7 +16,7 @@ If:                               # Apply this config conditionally
   PathMatch: [.*\.h, .*\.cpp, .*\.cpp, .*\.cc]  # to all headers...
   PathExclude: /home/zj/repos/grpc/.*
 CompileFlags:                        # Tweak the parse settings
-  Add: [-std=c++20, -I/usr/include/python3.10]  # treat all files as C++, enable more warnings
+  Add: [-xc++, -std=c++20, -I/usr/include/python3.10]  # treat all files as C++, enable more warnings
 Diagnostics:
   ClangTidy:
     Add:
