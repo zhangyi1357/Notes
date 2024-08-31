@@ -6,6 +6,8 @@
 
 截图、贴图工具。`F1` 截图，`F3` 贴图。
 
+Update：现在更加推荐使用 [Flameshot](#5-flameshot)，功能更强大更加方便。
+
 ## 2. [Ditto](https://ditto-cp.sourceforge.io/)
 
 剪贴板增强工具。```Ctrl + ` ``` 查看剪贴板历史。
@@ -21,3 +23,9 @@
 压缩工具。支持 7z、zip、rar、tar、iso 等多种格式，解压速度快。
 
 可以到 [夸克网盘](https://pan.quark.cn/s/74583a3e7f0f#/list/share) 下载无广告版本并关闭自动更新提升使用体验 [^1](https://www.qgnn.com/5583.html)。
+
+## 5. [Flameshot](https://flameshot.org/)
+
+截图工具。支持矩形、圆形、箭头、线条等多种截图方式，强大的截图编辑功能以及方便的贴图功能。
+
+默认快捷键 `PrintScreen`，Windows 平台下无法自定义该快捷键。
