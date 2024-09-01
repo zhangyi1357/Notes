@@ -37,6 +37,11 @@ struct Input {
 };
 
 CoRet Guess(Note &note) {
+  // What compiler has done for a coroutine under the hood
+  // CoRet::promise_type promise;
+  // CoRet ret = promise;
+  // co_await promise.initial_suspend();
+
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(1, 100);
@@ -56,6 +61,9 @@ CoRet Guess(Note &note) {
   }
 
   co_return secret;
+
+  // What compiler has done for a coroutine under the hood
+  // co_await promise.final_suspend();
 }
 
 int main() {
