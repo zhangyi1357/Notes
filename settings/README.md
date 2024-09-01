@@ -1,10 +1,24 @@
 # Settings
 
-各种软件的配置文件。
+各种软件的配置。
 
 ## VS Code
 
 TODO：VS Code 的配置文件，Settings，Keybindings，Snippets，Extensions。
+
+### AI 生成 commit message
+
+[使用 gitlens 插件结合 OpenAI api 实现 AI 生成 commit message](https://linux.do/t/topic/181361)
+
+settings.json 配置：
+
+```json
+{
+  "gitlens.experimental.generateCommitMessagePrompt": "You are an expert software engineer. Review the provided context and diffs which are about to be committed to a git repo. Review the diffs carefully. Generate a commit message for those changes. The commit message MUST use the imperative tense. The commit message should be structured as follows: <type>: <title> The commit message can come with an optional description after the title with a blank line. Remember don't make the title too long. Use these for <type>: fix, feat, build, chore, ci, docs, style, refactor, perf, test Reply with JUST the commit message, without quotes, comments, questions, etc!",
+  "gitlens.ai.experimental.openai.url": "https://api.keya.pw/v1/chat/completions",
+  "gitlens.ai.experimental.model": "openai:gpt-4o-mini",
+}
+```
 
 ## [Clangd](https://clangd.llvm.org/)
 
