@@ -4,7 +4,7 @@
 
 1. [【\[C++\] 协程初步：手把手教你写一个协程】](https://www.bilibili.com/video/BV1c8411f7dw/?share_source=copy_web&vd_source=07d6eec55261917555a5d7fb4429cab9)
 
-    20分钟的教程讲得非常清晰，适合入门。面向编译错误编程，逐步解决编译错误，最终实现一个猜数字游戏。
+    20 分钟的教程讲得非常清晰，适合入门。面向编译错误编程，逐步解决编译错误，最终实现一个猜数字游戏。
 
     完善版本的代码见 [projects/learn-cpp-coroutine/coroutine_basic.cpp](../projects/learn-cpp-coroutine/coroutine_basic.cpp)。
 
@@ -14,8 +14,7 @@
 
 2. [【\[C++\] 协程完结篇——实现思想】](https://www.bilibili.com/video/BV1U8411U7ud/?share_source=copy_web&vd_source=07d6eec55261917555a5d7fb4429cab9)
 
-    基于[CppCon 2016: Gor Nishanov “C++ Coroutines: Under the covers"](https://www.youtube.com/watch?v=8C8NnE1Dg4A&t=8s)讲解了协程的底层实现原理，本质上就是一个状态机，在堆中存储运行过程所需的上下文，通过 `co_await`、`co_yield` 和 `co_return` 来控制状态的转移。
-
+    基于 [CppCon 2016: Gor Nishanov “C++ Coroutines: Under the covers"](https://www.youtube.com/watch?v=8C8NnE1Dg4A&t=8s) 讲解了协程的底层实现原理，本质上就是一个状态机，在堆中存储运行过程所需的上下文，通过 `co_await`、`co_yield` 和 `co_return` 来控制状态的转移。
 
 3. [【【协程革命】C++协程上手体验 干爽无废话 纯粹不卖课 全程字幕】](https://www.bilibili.com/video/BV1RV4y1L7ar/?share_source=copy_web&vd_source=07d6eec55261917555a5d7fb4429cab9)
 
@@ -27,7 +26,7 @@
 
 5. [【【协程革命】实现篇！无栈协程 有手就行？！ 全程字幕】](https://www.bilibili.com/video/BV1dv4y127YT/?share_source=copy_web&vd_source=07d6eec55261917555a5d7fb4429cab9)
 
-    使用switch 和 goto 语句以及一个 frame struct 模拟一个非对称协程斐波那契数列的实现，与2中的内容相似，但是更加简单易懂，适合入门。
+    使用 switch 和 goto 语句以及一个 frame struct 模拟一个非对称协程斐波那契数列的实现，与 2 中的内容相似，但是更加简单易懂，适合入门。
 
     代码见 [projects/learn-cpp-coroutine/sim_coroutine_fib.cpp](../projects/learn-cpp-coroutine/sim_coroutine_fib.cpp)。
 
@@ -36,3 +35,9 @@
 6. [cpp reference 协程](https://en.cppreference.com/w/cpp/language/coroutines)
 
     官方文档，稍显晦涩，可以用作手册查阅。
+
+7. [Coroutine Theory](https://lewissbaker.github.io/2017/09/25/coroutine-theory)
+
+    lewissbaker 的协程理论博客，主要介绍了 C++ 协程的基本概念和工作原理，包括协程与普通函数的区别、协程的操作（挂起、恢复、销毁）、协程的激活帧等内容，有一个具体的讲解协程帧和协程执行栈帧的例子，详细描述了协程恢复挂起过程中两个帧的具体情况。
+
+    值得注意的一点是，C++协程技术规范中有一些规定，允许在编译器能够证明协程的生命周期确实严格嵌套于调用者生命周期内的情况下，从调用者的栈帧中分配协程帧的内存。
