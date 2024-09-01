@@ -1,3 +1,9 @@
+# Ignore all files without extension name
+*
+!*.*
+!*/
+
+# Ignore all build files
 *.so
 *.out
 build/
