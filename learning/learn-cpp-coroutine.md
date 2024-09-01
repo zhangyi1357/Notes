@@ -32,3 +32,7 @@
     代码见 [projects/learn-cpp-coroutine/sim_coroutine_fib.cpp](../projects/learn-cpp-coroutine/sim_coroutine_fib.cpp)。
 
     协程的对称概念是关于其调度的一部分，C++所采用的对称协程可由用户自定义当前协程暂停之后恢复执行的协程，而非对称协程则只能恢复到调度器。
+
+6. [cpp reference 协程](https://en.cppreference.com/w/cpp/language/coroutines)
+
+    官方文档，稍显晦涩，可以用作手册查阅。
