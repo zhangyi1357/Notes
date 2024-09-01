@@ -120,3 +120,23 @@
     无栈协程相比于有栈协程的一大优势在于，无需同步即可编写异步代码，可以免去 future-promise 以及 mutex 等同步机制带来的开销。
 
     博客最后给出了一个例子，使用协程实现一个生产者-消费者模型，代码见 [projects/learn-cpp-coroutine/thread_sync_primitive.cpp](../projects/learn-cpp-coroutine/thread_sync_primitive.cpp)，这个例子中实现了一个 `async_manual_reset_event` 的同步原语来实现生产者-消费者模型，这个类可以看作是一个同步机制，用于在生产者和消费者之间传递信号。这个实现还是比较有趣的，值得仔细研究。
+
+## TO BE LEARNED
+
+[@小彭老师](https://space.bilibili.com/263032155) 的自制协程库教程
+
+* 视频：
+
+    [【【C++20】从 0 开始自制协程库，有手就行（上）】 ](https://www.bilibili.com/video/BV1Yz421Z7rZ/?share_source=copy_web&vd_source=07d6eec55261917555a5d7fb4429cab9)
+
+* 代码：
+
+    [co_async](https://github.com/archibate/co_async)
+
+Lewis Baker 的协程博客：
+
+* [Asymmetric Transfer](https://lewissbaker.github.io/)
+
+[@等疾风](https://space.bilibili.com/35186937) 的 co_context 携程库：
+
+* [co_context](https://github.com/archibate/co_context)
