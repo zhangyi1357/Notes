@@ -38,6 +38,85 @@
 
 7. [Coroutine Theory](https://lewissbaker.github.io/2017/09/25/coroutine-theory)
 
-    lewissbaker 的协程理论博客，主要介绍了 C++ 协程的基本概念和工作原理，包括协程与普通函数的区别、协程的操作（挂起、恢复、销毁）、协程的激活帧等内容，有一个具体的讲解协程帧和协程执行栈帧的例子，详细描述了协程恢复挂起过程中两个帧的具体情况。
+    Lewis Baker 的协程理论博客，主要介绍了 C++ 协程的基本概念和工作原理，包括协程与普通函数的区别、协程的操作（挂起、恢复、销毁）、协程的激活帧等内容，有一个具体的讲解协程帧和协程执行栈帧的例子，详细描述了协程恢复挂起过程中两个帧的具体情况。
 
     值得注意的一点是，C++协程技术规范中有一些规定，允许在编译器能够证明协程的生命周期确实严格嵌套于调用者生命周期内的情况下，从调用者的栈帧中分配协程帧的内存。
+
+8. [C++ Coroutines: Understanding operator co_await](https://lewissbaker.github.io/2017/11/17/understanding-operator-co-await)
+
+    Lewis Baker 的协程理论博客，介绍了 co_await 的实现原理，包括 co_await 的类型、co_await 的返回值类型、co_await 的执行过程等内容。
+
+    关于 Awaitable，await_transform，Awaiter，operator co_await 等概念在文中有详细讲解，具体来说：
+
+    * Awaitable: 可以被 co_await 的类型，包括 Awaiter 和 重载了 operator co_await 的类型。
+    * Awaiter: 实现了 await_ready, await_suspend, await_resume 的对象。
+    * await_transform: promise_type 中的一个函数，用于将一个类型转换为 Awaitable。
+    * operator co_await: 可以是 Awaitable 中的一个重载，也可以是一个全局重载，用于将 Awaitable 转换为 Awaiter。
+
+    `co_await expr` 的执行过程（将 expr 转换为 Awaiter 的过程）伪代码：
+
+    ```cpp
+    template<typename P, typename T>
+    decltype(auto) get_awaitable(P& promise, T&& expr)
+    {
+        if constexpr (has_any_await_transform_member_v<P>)
+            return promise.await_transform(static_cast<T&&>(expr));
+        else
+            return static_cast<T&&>(expr);
+    }
+
+    template<typename Awaitable>
+    decltype(auto) get_awaiter(Awaitable&& awaitable)
+    {
+        if constexpr (has_member_operator_co_await_v<Awaitable>)
+            return static_cast<Awaitable&&>(awaitable).operator co_await();
+        else if constexpr (has_non_member_operator_co_await_v<Awaitable&&>)
+            return operator co_await(static_cast<Awaitable&&>(awaitable));
+        else
+            return static_cast<Awaitable&&>(awaitable);
+    }
+    ```
+
+    `co_await Awaiter` 的执行过程（Awaiter 的 await_suspend 和 await_resume 的执行过程）伪代码：
+
+    ```cpp
+
+    {
+    auto&& value = <expr>;
+    auto&& awaitable = get_awaitable(promise, static_cast<decltype(value)>(value));
+    auto&& awaiter = get_awaiter(static_cast<decltype(awaitable)>(awaitable));
+    if (!awaiter.await_ready())
+    {
+        using handle_t = std::experimental::coroutine_handle<P>;
+
+        using await_suspend_result_t =
+        decltype(awaiter.await_suspend(handle_t::from_promise(p)));
+
+        <suspend-coroutine>
+
+        if constexpr (std::is_void_v<await_suspend_result_t>)
+        {
+        awaiter.await_suspend(handle_t::from_promise(p));
+        <return-to-caller-or-resumer>
+        }
+        else
+        {
+        static_assert(
+            std::is_same_v<await_suspend_result_t, bool>,
+            "await_suspend() must return 'void' or 'bool'.");
+
+        if (awaiter.await_suspend(handle_t::from_promise(p)))
+        {
+            <return-to-caller-or-resumer>
+        }
+
+        <resume-point>
+    }
+
+    return awaiter.await_resume();
+    }
+    ```
+
+    无栈协程相比于有栈协程的一大优势在于，无需同步即可编写异步代码，可以免去 future-promise 以及 mutex 等同步机制带来的开销。
+
+    博客最后给出了一个例子，使用协程实现一个生产者-消费者模型，代码见 [projects/learn-cpp-coroutine/thread_sync_primitive.cpp](../projects/learn-cpp-coroutine/thread_sync_primitive.cpp)，这个例子中实现了一个 `async_manual_reset_event` 的同步原语来实现生产者-消费者模型，这个类可以看作是一个同步机制，用于在生产者和消费者之间传递信号。这个实现还是比较有趣的，值得仔细研究。
