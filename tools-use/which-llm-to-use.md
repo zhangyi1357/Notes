@@ -50,4 +50,4 @@
 
 - [EvalPlus](https://evalplus.github.io/leaderboard.html)
 - [Aider Chat LeaderBoard](https://aider.chat/docs/leaderboards/)
-- [LiveCodeBench] (https://livecodebench.github.io/leaderboard.html)
+- [LiveCodeBench](https://livecodebench.github.io/leaderboard.html)
