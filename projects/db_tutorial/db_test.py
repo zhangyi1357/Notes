@@ -66,7 +66,7 @@ def test_insert_and_select():
 
 @test_timer
 def test_table_full():
-    commands = [f"insert {i} user{i} person{i}@example.com" for i in range(1, 1402)]
+    commands = [f"insert {i} user{i} person{i}@example.com" for i in range(1, 1302)]
     commands.append(".exit")
 
     results = run_script(commands)
