@@ -2,6 +2,7 @@
 *
 !*.*
 !*/
+!Makefile
 
 # Ignore all build files
 *.so
