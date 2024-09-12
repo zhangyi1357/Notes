@@ -5,7 +5,7 @@ import functools
 
 def run_script(commands):
     process = subprocess.Popen(
-        ["./db"],
+        ["./db", "test.db"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -39,6 +39,7 @@ def assert_output(results, expected):
 def test_timer(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        subprocess.run(["rm", "-rf", "test.db"])
         start_time = time.time()
         results = func(*args, **kwargs)
         end_time = time.time()
