@@ -41,10 +41,11 @@ def test_timer(func):
     def wrapper(*args, **kwargs):
         subprocess.run(["rm", "-rf", "test.db"])
         start_time = time.time()
-        results = func(*args, **kwargs)
+        func(*args, **kwargs)
         end_time = time.time()
-        print(f"{func.__name__:40} passed! Time: {end_time - start_time:.4f} seconds")
-        return results
+        elapsed_time = end_time - start_time
+        print(f"{func.__name__:40} passed! Time: {elapsed_time:.4f} seconds")
+        return elapsed_time
 
     return wrapper
 
@@ -167,7 +168,6 @@ def test_print_structure_of_one_node_btree():
     assert_output(results, expected_results)
 
 
-@test_timer
 def all_test():
     tests = [
         test_insert_and_select,
@@ -180,15 +180,18 @@ def all_test():
 
     total_tests = len(tests)
     passed_tests = 0
+    total_time = 0
 
-    for test in tests:
+    for i, test in enumerate(tests, 1):
         try:
-            test()
+            print(f"[{i}/{total_tests}] ", end="")
+            elapsed_time = test()
             passed_tests += 1
+            total_time += elapsed_time
         except AssertionError as e:
-            print(f"{test.__name__} failed: {str(e)}")
+            print(f"[{i}/{total_tests}] {test.__name__} failed: {str(e)}")
         except Exception as e:
-            print(f"{test.__name__} encountered an unexpected error: {str(e)}")
+            print(f"[{i}/{total_tests}] {test.__name__} encountered an unexpected error: {str(e)}")
 
     pass_rate = (passed_tests / total_tests) * 100
 
@@ -198,6 +201,7 @@ def all_test():
     print(f"{'📊 Total tests:':<25}{total_tests}")
     print(f"{'✅ Passed tests:':<25}{passed_tests}")
     print(f"{'🎯 Pass rate:':<25}{pass_rate:.2f}%")
+    print(f"{'⏰ Total test time:':<25}{total_time:.4f} seconds")
     print("=" * 50)
     print(f"{'🏁 Test Run Completed 🏁':^50}")
     print("=" * 50)
