@@ -43,7 +43,7 @@ def test_timer(func):
         start_time = time.time()
         results = func(*args, **kwargs)
         end_time = time.time()
-        print(f"{func.__name__:30} passed! Time: {end_time - start_time:.4f} seconds")
+        print(f"{func.__name__:40} passed! Time: {end_time - start_time:.4f} seconds")
         return results
 
     return wrapper
@@ -73,7 +73,7 @@ def test_table_full():
     results = run_script(commands)
     result_lines = results.split("\n")
 
-    expected_line = "db > Error: Table full."
+    expected_line = "Error: Table full."
 
     assert result_lines[-2] == expected_line, f"Expected '{expected_line}', but got '{result_lines[-2]}'"
 
@@ -141,12 +141,66 @@ def test_negative_id():
 
 
 @test_timer
+def test_print_structure_of_one_node_btree():
+    commands = [
+        "insert 3 user3 person3@example.com",
+        "insert 1 user1 person1@example.com",
+        "insert 2 user2 person2@example.com",
+        ".btree",
+        ".exit",
+    ]
+
+    expected_results = [
+        "db > Executed.",
+        "db > Executed.",
+        "db > Executed.",
+        "db > Tree:",
+        "leaf (size 3)",
+        "  - 0 : 3",
+        "  - 1 : 1",
+        "  - 2 : 2",
+        "db > ",
+    ]
+
+    results = run_script(commands)
+
+    assert_output(results, expected_results)
+
+
+@test_timer
 def all_test():
-    test_insert_and_select()
-    test_table_full()
-    test_max_length_strings()
-    test_strings_too_long()
-    test_negative_id()
+    tests = [
+        test_insert_and_select,
+        test_table_full,
+        test_max_length_strings,
+        test_strings_too_long,
+        test_negative_id,
+        test_print_structure_of_one_node_btree,
+    ]
+
+    total_tests = len(tests)
+    passed_tests = 0
+
+    for test in tests:
+        try:
+            test()
+            passed_tests += 1
+        except AssertionError as e:
+            print(f"{test.__name__} failed: {str(e)}")
+        except Exception as e:
+            print(f"{test.__name__} encountered an unexpected error: {str(e)}")
+
+    pass_rate = (passed_tests / total_tests) * 100
+
+    print("\n" + "=" * 50)
+    print(f"{'✨ Test Summary ✨':^50}")
+    print("=" * 50)
+    print(f"{'📊 Total tests:':<25}{total_tests}")
+    print(f"{'✅ Passed tests:':<25}{passed_tests}")
+    print(f"{'🎯 Pass rate:':<25}{pass_rate:.2f}%")
+    print("=" * 50)
+    print(f"{'🏁 Test Run Completed 🏁':^50}")
+    print("=" * 50)
 
 
 if __name__ == "__main__":
