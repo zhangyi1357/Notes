@@ -121,6 +121,44 @@
 
     博客最后给出了一个例子，使用协程实现一个生产者-消费者模型，代码见 [projects/learn-cpp-coroutine/thread_sync_primitive.cpp](../projects/learn-cpp-coroutine/thread_sync_primitive.cpp)，这个例子中实现了一个 `async_manual_reset_event` 的同步原语来实现生产者-消费者模型，这个类可以看作是一个同步机制，用于在生产者和消费者之间传递信号。这个实现还是比较有趣的，值得仔细研究。
 
+9. [Structured Concurrency](https://ericniebler.com/2020/11/08/structured-concurrency/)
+
+    Libunifex 库的作者 Eric Niebler 的博客，介绍了 structured concurrency 的概念，指的是一种组织异步计算的方式，确保子操作在其父操作之前完成，正如函数确保在调用者之前完成一样，通过使用结构化并发，可以以类似同步的方式来编写异步代码，以下是一些关键点：
+    1. 它将异步生命周期与普通的 C++词法作用域联系起来，使得异步编程可以使用现代 C++的惯用模式。
+    2. 它允许我们安全地将局部变量通过引用传递给立即等待的子任务。
+    3. 协程是实现结构化并发的主要方式，但不是唯一方式。本质上，结构化并发是以特定模式组织回调，可以通过 libunifex 等库实现，而不仅仅是通过协程。
+    4. 与使用 futures 和回调的非结构化并发相比，结构化并发更容易推理正确性和效率。
+    5. 它需要对取消有深层支持，以避免不必要的延迟。
+    7. 它使得异步代码更易于维护和理解，因为它保持了代码的结构性。
+
+    结构化并发的一个简单例子：
+
+    ```cpp
+    cppcoro::task<> computeResult(State & s);
+
+    cppcoro::task<int> doThing() {
+        State s;
+        co_await computeResult(s);
+        co_return s.result;
+    }
+    ```
+
+10. [Asynchronous Stacks and Scopes](https://ericniebler.com/2021/08/29/asynchronous-stacks-and-scopes/)
+
+    Eric Niebler 的博客，介绍了异步栈和异步作用域的概念。单线程程序中的调用栈体现了程序如何执行到当前位置，而在多线程程序中，程序调用栈则完全无法体现异步链条如何运行到当前位置。异步栈指的是异步函数的激活链条，异步作用域则指的是单个异步函数的运行时状态，包括所有变量和异步栈的上下文。
+
+    在非结构化并发中，根本不存在异步作用域，我们必须使用诸如 shared_ptr 进行资源管理，而基于协程的结构化编程所带来的巨大优势就是可以让异步作用域与词法作用域对齐，资源管理变成了局部变量，依赖于 C++ 最伟大的 `}` “运算符”，无需使用 shared_ptr 等同步机制。
+
+    协程本质上是回调的语法糖。
+    即使没有协程，使用正确的库抽象也可以在 C++ 中实现结构化并发。
+
+    11. [What are senders good for anyway?](https://ericniebler.com/2024/02/04/what-are-senders-good-for-anyway/)
+
+    Eric Niebler 的博客，介绍了 Sender 如何实现以及为什么要使用 Sender。
+
+    1. Senders 的主要优势在于提供了一个统一的异步抽象，可以解决不同库之间异步 API 不兼容的问题。
+    2. 使用 Sender 的最终用户不需要直接处理复杂的底层细节，可以在协程中直接使用 co_await 来等待 Sender。
+
 ## TO BE LEARNED
 
 [@小彭老师](https://space.bilibili.com/263032155) 的自制协程库教程
