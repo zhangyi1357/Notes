@@ -1,12 +1,18 @@
 # Ignore all files without extension name
 *
 !*.*
+.*
 !*/
 !Makefile
 
 # Ignore all build files
+*.o
 *.so
 *.out
 build/
 
 *.db
+
+*.gcda
+*.gcno
+*.gcov
