@@ -308,3 +308,27 @@ Elapsed execution time: 0.000695 sec
 ==30734== For lists of detected and suppressed errors, rerun with: -s
 ==30734== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
+
+Q9: 报告优化前后程序的执行时间。
+
+A9:
+
+```txt
+before optimization:
+1.241193 sec
+
+after optimization:
+0.326139 sec
+```
+
+Q10: 报告在调试模式下使用 -O0 编译的程序和在非调试模式下使用 -O3 编译的程序的执行时间。
+
+A10:
+
+```txt
+-O0:
+1.666814 sec
+
+-O3:
+0.346804 sec
+```

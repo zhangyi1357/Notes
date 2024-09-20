@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   matrix *B;
   matrix *C;
 
-  const int kMatrixSize = 4;
+  const int kMatrixSize = 1000;
 
   // Parse command line arguments
   while ((optchar = getopt(argc, argv, "upz")) != -1) {

@@ -19,7 +19,7 @@ PRODUCT := matrix_multiply
 CC := clang
 
 # These flags will be applied to your code any time it is built.
-CFLAGS := -Wall -std=c99 -D_POSIX_C_SOURCE=200809L -fprofile-arcs -ftest-coverage
+CFLAGS := -Wall -std=c99 -D_POSIX_C_SOURCE=200809L
 
 # These flags are applied only if you build your code with "make DEBUG=1".  -g
 # generates debugging symbols, -DDEBUG defines the preprocessor symbol "DEBUG"
@@ -31,7 +31,7 @@ CFLAGS_DEBUG := -g -DDEBUG -O0
 # In the release version, we ask for many optimizations; -O3 sets the
 # optimization level to three.  -DNDEBUG defines the NDEBUG macro,
 # which disables assertion checks.
-CFLAGS_RELEASE := -O1 -DNDEBUG
+CFLAGS_RELEASE := -O3 -DNDEBUG
 
 # These flags are used to invoke Clang's address sanitizer.
 CFLAGS_ASAN := -O1 -g -fsanitize=address
@@ -40,7 +40,7 @@ CFLAGS_ASAN := -O1 -g -fsanitize=address
 # If you need to link against libraries, add the appropriate flags here.  By
 # default, your code is linked against the "rt" library with the flag -lrt;
 # this library is used by the timing code in the testbed.
-LDFLAGS := -lrt -flto -fuse-ld=gold -fprofile-arcs -ftest-coverage
+LDFLAGS := -lrt -flto -fuse-ld=gold
 
 ################################################################################
 # You probably won't need to change anything below this line, but if you're
