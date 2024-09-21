@@ -40,9 +40,9 @@
 
   免费无限使用的 [聊天官网](https://chat.deepseek.com/coder)，[低廉的 API 价格](https://platform.deepseek.com/api-docs/zh-cn/pricing/)，[模型开源](https://github.com/deepseek-ai/DeepSeek-Coder)，各大榜单名列前茅的实力 [^1](https://evalplus.github.io/leaderboard.html)[^2](https://aider.chat/docs/leaderboards/)，当之无愧的编程大模型首选。
 
-- [Qwen/CodeQwen1.5-7B-Chat](https://github.com/QwenLM/CodeQwen1.5)
+- [Qwen/qwen2.5-72b-instruct](https://github.com/QwenLM/Qwen2.5)
 
-  Qwen 基本上也是国产开源大模型之光，在 [EvalPlus](https://evalplus.github.io/leaderboard.html) 等排行榜中也是名列前茅，在 7~9B 级别的模型中属于佼佼者，能够打败 DeepSeek-Coder-6.7B，7B 的参数量比较适合本地进行部署使用。
+  在国产模型中各方面基本都是 SOTA，尤其在编程领域，在 [LiveBench](https://livecodebench.github.io/leaderboard.html) 位居国产模型第一，编程方面（57 分）仅次于 Claude-3.5-sonnet（61 分），超过 o1-preview（51 分） 和 gpt-4o（51 分）。
 
 - [Claude-3.5-sonnet](https://www.anthropic.com/news/claude-3-5-sonnet)
 
