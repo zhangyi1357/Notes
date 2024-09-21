@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) { // What is the type of argv? char **
 }
 ```
 
-Q3: 对于 sizes.c 练习中的每个类型，打印该类型指针的大小。请记住，获取数组或结构的地址需要使用&运算符。
+Q3: 对于 sizes.c 练习中的每个类型，打印该类型指针的大小。请记住，获取数组或结构的地址需要使用 & 运算符。
 提供您的程序输出（应包括实际类型和指针到该类型的大小）。
 
 A3:
@@ -81,7 +81,7 @@ size of __int128        : 16 bytes, size of __int128       * :  8 bytes
 ```
 
 Q4: 文件 swap.c 包含交换两个整数的代码。使用指针重写 swap() 函数，并在 main() 函数中做出相应更改，以便通过调用 swap() 进行值交换。
-使用 make swap 编译代码，并运行程序。/swap。在写作中提供编辑后的代码。通过使用 python 脚本 verifier.py 验证 sizes.c 和 swap.c 的两个大小是否正确。
+使用 make swap 编译代码，并运行程序 ./swap。提供编辑后的代码。通过使用 python 脚本 verifier.py 验证 sizes.c 和 swap.c 的两个大小是否正确。
 
 A4:
 
