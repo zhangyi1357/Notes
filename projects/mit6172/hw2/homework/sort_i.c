@@ -27,7 +27,7 @@ static void merge_i(data_t *A, int p, int q, int r);
 static void copy_i(data_t *source, data_t *dest, int n);
 
 // A basic merge sort routine that sorts the subarray A[p..r]
-void sort_i(data_t *A, int p, int r) {
+__attribute__((always_inline)) void sort_i(data_t *A, int p, int r) {
   assert(A);
   if (p < r) {
     int q = (p + r) / 2;

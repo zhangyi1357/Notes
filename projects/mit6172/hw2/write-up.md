@@ -124,3 +124,50 @@ Done testing.
 ```
 
 可以看到，相比于未进行内联的 sort_a 函数，sort_i 函数的运行时间有略微的缩短，但是仍不及 sort_a 的重复执行。
+
+Q3: 解释内联递归函数可能的性能缺点。使用 cachegrind 收集的数据如何帮助你衡量这些负面性能影响？
+
+A3:
+
+内联了递归函数 sort_i 之后，程序运行时间有所上升。
+
+```
+valgrind --tool=cachegrind --branch-sim=yes ./sort 131072 1
+==9704== Cachegrind, a high-precision tracing profiler
+==9704== Copyright (C) 2002-2024, and GNU GPL'd, by Nicholas Nethercote et al.
+==9704== Using Valgrind-3.23.0 and LibVEX; rerun with -h for copyright info
+==9704== Command: ./sort 131072 1
+==9704==
+
+Running test #0...
+Generating random array of 131072 elements
+Arrays are sorted: yes
+ --> test_correctness at line 217: PASS
+sort_a          : Elapsed execution time: 0.138339 sec
+sort_a repeated : Elapsed execution time: 0.133965 sec
+sort_i          : Elapsed execution time: 0.148658 sec
+Generating inverted array of 131072 elements
+Arrays are sorted: yes
+ --> test_correctness at line 217: PASS
+sort_a          : Elapsed execution time: 0.270216 sec
+sort_a repeated : Elapsed execution time: 0.268239 sec
+sort_i          : Elapsed execution time: 0.284245 sec
+
+Running test #1...
+ --> test_zero_element at line 245: PASS
+
+Running test #2...
+ --> test_one_element at line 266: PASS
+Done testing.
+==9704==
+==9704== I refs:        550,717,740
+==9704==
+==9704== Branches:       58,948,296  (55,670,722 cond + 3,277,574 ind)
+==9704== Mispredicts:     1,819,181  ( 1,818,831 cond +       350 ind)
+==9704== Mispred rate:          3.1% (       3.3%     +       0.0%   )
+```
+
+可能的缺点：
+
+1. 代码膨胀导致的指令缓存命中率下降。
+2. 编译器的尾递归优化可能失效。
