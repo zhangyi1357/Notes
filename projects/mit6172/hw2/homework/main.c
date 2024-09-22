@@ -20,10 +20,10 @@
  * IN THE SOFTWARE.
  **/
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "./fasttime.h"
 #include "./tests.h"
@@ -31,9 +31,8 @@
 // Extern variables
 extern test_case test_cases[];
 
-
 static void run_test_suite(int start_idx, int printFlag, int N, int R,
-                           struct testFunc_t* testFunc, int numFunc) {
+                           struct testFunc_t *testFunc, int numFunc) {
   for (int i = 0; test_cases[i] != NULL; i++) {
     if (i < start_idx) {
       continue;
@@ -44,29 +43,28 @@ static void run_test_suite(int start_idx, int printFlag, int N, int R,
   fprintf(stderr, "Done testing.\n");
 }
 
+extern void sort_a(data_t *, int, int);
+extern void sort_i(data_t *, int, int);
+extern void sort_p(data_t *, int, int);
+extern void sort_c(data_t *, int, int);
+extern void sort_m(data_t *, int, int);
+extern void sort_f(data_t *, int, int);
 
-extern void sort_a(data_t*, int, int);
-extern void sort_i(data_t*, int, int);
-extern void sort_p(data_t*, int, int);
-extern void sort_c(data_t*, int, int);
-extern void sort_m(data_t*, int, int);
-extern void sort_f(data_t*, int, int);
-
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   int N, R, optchar, printFlag = 0;
   unsigned int seed = 0;
 
   // an array of struct testFunc_t indicating the sort functions to test
-  // the struct contains two fields --- the function pointer to the sort function
-  // and its name (for printing)
+  // the struct contains two fields --- the function pointer to the sort
+  // function and its name (for printing)
   struct testFunc_t testFunc[] = {
-    {&sort_a, "sort_a\t\t"},
-    {&sort_a, "sort_a repeated\t"},
-    //{&sort_i, "sort_i\t\t"},
-    //{&sort_p, "sort_p\t\t"},
-    //{&sort_c, "sort_c\t\t"},
-    //{&sort_m, "sort_m\t\t"},
-    //{&sort_f, "sort_f\t\t"},
+      {&sort_a, "sort_a\t\t"},
+      {&sort_a, "sort_a repeated\t"},
+      {&sort_i, "sort_i\t\t"},
+      //{&sort_p, "sort_p\t\t"},
+      //{&sort_c, "sort_c\t\t"},
+      //{&sort_m, "sort_m\t\t"},
+      //{&sort_f, "sort_f\t\t"},
   };
   const int kNumOfFunc = sizeof(testFunc) / sizeof(testFunc[0]);
 
@@ -74,7 +72,7 @@ int main(int argc, char** argv) {
   while ((optchar = getopt(argc, argv, "s:p")) != -1) {
     switch (optchar) {
     case 's':
-      seed = (unsigned int) atoi(optarg);
+      seed = (unsigned int)atoi(optarg);
       printf("Using user-provided seed: %u\n", seed);
       srand(seed);
       break;
