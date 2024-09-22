@@ -16,3 +16,6 @@ build/
 *.gcda
 *.gcno
 *.gcov
+
+cachegrind.out.*
+perf.data
