@@ -1,7 +1,7 @@
 # Copyright (c) 2012-2013 MIT License by 6.172 Staff
 CC := clang
-CFLAGS := -g -Wall -std=gnu99 -gdwarf-3 -always-inline
-LDFLAGS := -lrt -lm 
+CFLAGS := -g -Wall -std=gnu99 -gdwarf-3
+LDFLAGS := -lrt -lm
 # You may add new files to the list of COMMON_SRC below
 COMMON_SRC := tests.c util.c isort.c sort_a.c sort_c.c sort_i.c sort_p.c sort_m.c sort_f.c
 COMMON_HEADERS := fasttime.h util.h tests.h
